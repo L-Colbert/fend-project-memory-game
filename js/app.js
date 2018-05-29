@@ -41,10 +41,21 @@ document.addEventListener('DOMContentLoaded', function() {
     */
 
  
+
+    function playGame(e){
+        //displays the once hidden symbol of the card
+        function displaySymbol(){
+        e.target.setAttribute('class','card open show');
+        }
+
+        //calls function to turn over card
+        displaySymbol();
+    }
+
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         if (event.target.nodeName==='LI') {
-            playGame();
+            playGame(event);
         }
     })
 
