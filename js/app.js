@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
     *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     */
 
+ 
+    //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         if (event.target.nodeName==='LI') {
             playGame();
