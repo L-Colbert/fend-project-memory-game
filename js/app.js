@@ -56,10 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //creates an array of clicked(open) cards
         function openedCards(e, card){
-            if(count <= 2){
             cardHolder.push(card);
             return cardHolder;
-            }
         };
 
         //locks cards open if they are a match
@@ -69,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.setAttribute('class','card match');
             };
             cardArray.forEach(setAttr);
+            cardHolder = [];
         };
 
         //locks cards open if they are a match
@@ -78,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.setAttribute('class','card');
             };
             cardArray.forEach(setAttr);
+            cardHolder = [];
         };
 
         //calls function to turn over card
