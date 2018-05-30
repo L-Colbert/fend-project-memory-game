@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("You've already selected this card, try choosing another!");
             } else 
                 count++;
+                document.querySelector('.moves').textContent = count;
                 playGame(event, count);    
         }
     })
