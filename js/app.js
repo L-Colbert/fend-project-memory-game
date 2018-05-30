@@ -75,12 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
         //locks cards open if they are a match
         function unmatched() {
             function setAttr(item) {
-                console.log(item);
                 item.classList.remove('open', 'show');
             };
-            cardArray.forEach(setAttr);
+           setTimeout(function() {cardArray.forEach(setAttr)}, 750);
             cardHolder = [];
         };
+
 
         //calls function to turn over card
         displaySymbol();
@@ -103,8 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         if (event.target.nodeName==='LI') {
-console.log(event.target.classList);
- //           if (event.target.getAttribute('class') === (('card open show') || ('card match'))) {
             if (event.target.classList.contains('match','show')) {
                 alert("You've already selected this card, try choosing another!");
             } else 
