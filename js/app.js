@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+    let count = 0;
+    let cardHolder = [];
 
     /*
     * Create a list that holds all of your cards
@@ -42,20 +43,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
 
-    function playGame(e){
+    function playGame(e, count){
+        const newCard = e.target.firstElementChild.getAttribute('class');
+
         //displays the once hidden symbol of the card
         function displaySymbol(){
         e.target.setAttribute('class','card open show');
-        }
+        };
+
+        //creates an array of clicked(open) cards
+        function openedCards(e, card){
+            if(count <= 2){
+            cardHolder.push(card);
+            return cardHolder;
+            }
+        };
 
         //calls function to turn over card
         displaySymbol();
+
+        //invokes function that stores the clicked in an array
+        const cardArray = openedCards(e, newCard);
     }
 
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         if (event.target.nodeName==='LI') {
-            playGame(event);
+            count++;
+            playGame(event, count);
         }
     })
 
