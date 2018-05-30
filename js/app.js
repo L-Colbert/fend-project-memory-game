@@ -45,13 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function playGame(e, count){
         const newCard = e.target;
-       // const newCard = e.target.firstElementChild.getAttribute('class');
 
         console.log(count);
 
         //displays the once hidden symbol of the card
         function displaySymbol(){
-           newCard.setAttribute('class','card open show');
+            if (!(newCard.classList.contains('match'))) {
+                newCard.classList.add('open','show');
+            }
         };
 
         //creates an array of clicked(open) cards
@@ -64,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
         function matched() {
             function setAttr(item) {
                 console.log(item);
-                item.setAttribute('class','card match');
+                item.classList.remove('open', 'show');
+                item.classList.add('match');
             };
             cardArray.forEach(setAttr);
             cardHolder = [];
@@ -74,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function unmatched() {
             function setAttr(item) {
                 console.log(item);
-                item.setAttribute('class','card');
+                item.classList.remove('open', 'show');
             };
             cardArray.forEach(setAttr);
             cardHolder = [];
@@ -101,8 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         if (event.target.nodeName==='LI') {
-            count++;
-            playGame(event, count);
+console.log(event.target.classList);
+ //           if (event.target.getAttribute('class') === (('card open show') || ('card match'))) {
+            if (event.target.classList.contains('match','show')) {
+                alert("You've already selected this card, try choosing another!");
+            } else 
+                count++;
+                playGame(event, count);    
         }
     })
 
