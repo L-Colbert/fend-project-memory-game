@@ -44,11 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
  
 
     function playGame(e, count){
-        const newCard = e.target.firstElementChild.getAttribute('class');
+        const newCard = e.target;
+       // const newCard = e.target.firstElementChild.getAttribute('class');
+
+        console.log(count);
 
         //displays the once hidden symbol of the card
         function displaySymbol(){
-        e.target.setAttribute('class','card open show');
+           newCard.setAttribute('class','card open show');
         };
 
         //creates an array of clicked(open) cards
@@ -59,11 +62,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
+        //locks cards open if they are a match
+        function matched() {
+            function setAttr(item) {
+                console.log(item);
+                item.setAttribute('class','card match');
+            };
+            cardArray.forEach(setAttr);
+        };
+
         //calls function to turn over card
         displaySymbol();
 
         //invokes function that stores the clicked in an array
         const cardArray = openedCards(e, newCard);
+        console.log(cardArray);
+
+        //check to see if cards match
+        if (cardArray.length === 2) {
+            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
+                matched();
+            }   else {
+                unmatch();
+            };
+        }
+
     }
 
     //starts the game only if the card(li) is clicked
