@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
+    let matches = 0;
     let cardHolder = [];
 
     /*
@@ -46,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function playGame(e, count){
         const newCard = e.target;
 
-        console.log(count);
 
         //displays the once hidden symbol of the card
         function displaySymbol(){
@@ -61,15 +61,25 @@ document.addEventListener('DOMContentLoaded', function() {
             return cardHolder;
         };
 
+        //display messages/instructions when game is won
+        function gameWon(){
+            alert('Congratulations! You Did it!!');
+        }
+
+
         //locks cards open if they are a match
         function matched() {
             function setAttr(item) {
-                console.log(item);
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
             };
             cardArray.forEach(setAttr);
             cardHolder = [];
+            matches++;
+            if (matches === 8) {
+                setTimeout(gameWon, 1000);
+            };
+                
         };
 
         //locks cards open if they are a match
@@ -81,13 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
             cardHolder = [];
         };
 
-
         //calls function to turn over card
         displaySymbol();
 
         //invokes function that stores the clicked in an array
         const cardArray = openedCards(e, newCard);
-        console.log(cardArray);
 
         //check to see if cards match
         if (cardArray.length === 2) {
@@ -98,17 +106,15 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
-    }
+    };
 
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         const card = event.target;
         if (card.nodeName==='LI') {
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
-                console.log('should be alert');
                 alert("You've already selected this card, try choosing another!");
             } else {
-                console.log('going to the game');
                 count++;
                 document.querySelector('.moves').textContent = count;
                 playGame(event, count); 
