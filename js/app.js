@@ -71,6 +71,15 @@ document.addEventListener('DOMContentLoaded', function() {
             cardArray.forEach(setAttr);
         };
 
+        //locks cards open if they are a match
+        function unmatched() {
+            function setAttr(item) {
+                console.log(item);
+                item.setAttribute('class','card');
+            };
+            cardArray.forEach(setAttr);
+        };
+
         //calls function to turn over card
         displaySymbol();
 
@@ -83,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
                 matched();
             }   else {
-                unmatch();
+                unmatched();
             };
         }
 
