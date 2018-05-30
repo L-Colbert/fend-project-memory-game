@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         //locks cards open if they are a match
         function matched() {
             function setAttr(item) {
-                console.log(item);
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
             };
