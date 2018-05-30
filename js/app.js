@@ -102,14 +102,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
-        if (event.target.nodeName==='LI') {
-            if (event.target.classList.contains('match','show')) {
+        const card = event.target;
+        if (card.nodeName==='LI') {
+            if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
+                console.log('should be alert');
                 alert("You've already selected this card, try choosing another!");
-            } else 
+            } else {
+                console.log('going to the game');
                 count++;
                 document.querySelector('.moves').textContent = count;
-                playGame(event, count);    
-        }
+                playGame(event, count); 
+            };   
+        };
     })
 
 
