@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
     let cardHolder = [];
+    let time = 0;
+    let running = 0;
 
     
 
@@ -46,9 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
  
     function playGame(e, count){
         const newCard = e.target;
-        let time = 0;
-        let running = 0;
-    
 
         console.log(count);
 
@@ -82,8 +81,28 @@ document.addEventListener('DOMContentLoaded', function() {
             };
            setTimeout(function() {cardArray.forEach(setAttr)}, 750);
             cardHolder = [];
+        };
 
-                // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php
+
+        //calls function to turn over card
+        displaySymbol();
+
+        //invokes function that stores the clicked in an array
+        const cardArray = openedCards(e, newCard);
+        console.log(cardArray);
+
+        //check to see if cards match
+        if (cardArray.length === 2) {
+            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
+                matched();
+            }   else {
+                unmatched();g
+            };
+        }
+
+    }
+
+    // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php
         
         function gameTimer(x){
             if(running == 0){
@@ -127,32 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };     
 
-        };
-
-        //starts game timer
-        gameTimer();
-
-        //calls function to turn over card
-        displaySymbol();
-
-        //invokes function that stores the clicked in an array
-        const cardArray = openedCards(e, newCard);
-        console.log(cardArray);
-
-        //check to see if cards match
-        if (cardArray.length === 2) {
-            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
-                matched();
-            }   else {
-                unmatched();g
-            };
-        }
-
-    }
-
-
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
+        gameTimer();
         const card = event.target;
         if (card.nodeName==='LI') {
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
@@ -169,6 +165,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 })
-
-
 document.getElementById("myP").style.visibility = "hidden";
