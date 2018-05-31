@@ -85,9 +85,20 @@ h1 {
  * Styles for the Score Panel
  */
 
-.pause {
+.paused {
     cursor: pointer;
     display: inline-block;
+    visibility: hidden;
+}
+
+.running {
+    cursor: pointer;
+    display: inline-block;
+}
+
+button {
+    width: 75px;
+    margin: 0;
 }
 
 .score-panel {
