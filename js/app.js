@@ -10,7 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
     /*
     * Create a list that holds all of your cards
     */
-
+    const cardsArray = [ 
+        'fa-diamond', 'fa-diamond',
+        'fa-leaf', 'fa-leaf',
+        'fa-bomb', 'fa-bomb',
+        'fa-paper-plane-o', 'fa-paper-plane-o',
+        'fa-anchor', 'fa-anchor',
+        'fa-bolt', 'fa-bolt',
+        'fa-cube', 'fa-cube',
+        'fa-bicycle', 'fa-bicycle'];
 
     /*
     * Display the cards on the page
@@ -18,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     *   - loop through each card and create its HTML
     *   - add each card's HTML to the page
     */
+    
 
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
@@ -34,6 +43,31 @@ document.addEventListener('DOMContentLoaded', function() {
         return array;
     }
 
+
+    function displayCards(array) {
+        const deck = document.querySelector('.deck');
+        const cardList = document.querySelectorAll('li.card');
+console.log(cardList);
+        const fragment = document.createDocumentFragment();
+//        array.forEach(function(array) {
+            // const liItem = document.createElement('li');
+            // liItem.setAttribute('class', 'card');
+
+            for(let i = 0; i < array.length; i++) {
+                const image= document.createElement('i');
+                image.setAttribute('class', array[i]);
+                cardList[i].appendChild(image);
+                
+                fragment.appendChild(cardList[i]);
+            };
+
+//        });
+
+        while (deck.firstChild) deck.removeChild(deck.firstChild);
+//deck.empty();
+        deck.appendChild(fragment);
+    }
+//option: while (deck.firstChild) deck.removeChild(deck.firstChild);
 
     /*
     * set up the event listener for a card. If a card is clicked:
@@ -123,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };     
     
 
+        
         if(running == 0){
             running = 1;
             increment();
@@ -131,10 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }else{
             document.querySelector(".paused").style.visibility = "hidden";
         }
-
+        
+        
+        
 
         //calls function to turn over card
         displaySymbol();
+
 
         //invokes function that stores the clicked in an array
         const cardArray = openedCards(e, newCard);
@@ -151,6 +189,10 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
 
+    //shuffle cards and display
+    const newArray = shuffle(cardsArray);
+    displayCards(newArray);
+        
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
         const card = event.target;
