@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //locks cards open if they are a match
         function matched() {
+            
             function setAttr(item) {
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
@@ -80,6 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
             cardHolder = [];
             matches++;
             if (matches === 8) {
+                running = 0;
+                time = 0;
+                increment();
                 setTimeout(gameWon, 1000);
             };
                 
@@ -94,45 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cardHolder = [];
         };
 
-        //calls function to turn over card
-        displaySymbol();
-
-        //invokes function that stores the clicked in an array
-        const cardArray = openedCards(e, newCard);
-
-        //check to see if cards match
-        if (cardArray.length === 2) {
-            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
-                matched();
-            }   else {
-                unmatched();g
-            };
-        }
-
-    };
-
-    // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php
-        
-        function gameTimer(x){
-            if(running == 0){
-                running = 1;
-                increment();
-                // document.querySelector(".paused").classList.remove('paused');
-                // document.querySelector(".paused").classList.add('running');
-                document.querySelector(".paused button").innerHTML = "Pause";
-            }//else{
-            //     running = 0;
-            //     document.querySelector(".paused button").innerHTML = "Resume";
-            // }
-        };
-        
-        function reset(){
-            running = 0;
-            time = 0;
-            document.querySelector(".timer").innerHTML = "00:00:00";
-//        document.querySelector(".startPause").innerHTML = "Start";
-        };
-        
+        // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php       
         function increment(){
             if(running == 1){
                 setTimeout(function(){
@@ -152,12 +118,44 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
                     increment();
                 }, 100);
-            }
+            }  else {
+                 document.querySelector(".timer").innerHTML = "00:00:00";
+                }
         };     
+    
+
+        if(running == 0){
+            running = 1;
+            increment();
+            // document.querySelector(".paused").classList.remove('paused');
+            // document.querySelector(".paused").classList.add('running');
+            document.querySelector(".paused button").innerHTML = "Pause";
+        }//else{
+        //     running = 0;
+        //     document.querySelector(".paused button").innerHTML = "Resume";
+        // }
+
+
+        //calls function to turn over card
+        displaySymbol();
+
+        //invokes function that stores the clicked in an array
+        const cardArray = openedCards(e, newCard);
+
+        //check to see if cards match
+        if (cardArray.length === 2) {
+            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
+                matched();
+            }   else {
+                unmatched();
+            };
+        }
+
+    };
+
 
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
-        gameTimer();
         const card = event.target;
         if (card.nodeName==='LI') {
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
@@ -172,4 +170,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 })
-document.getElementById("myP").style.visibility = "hidden";
+//document.getElementById("myP").style.visibility = "hidden";
