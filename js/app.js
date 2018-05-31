@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
     let matches = 0;
     let cardHolder = [];
+    let time = 0;
+    let running = 0;
+
+    
 
     /*
     * Create a list that holds all of your cards
@@ -43,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     */
 
  
-
     function playGame(e, count){
         const newCard = e.target;
 
@@ -102,14 +105,59 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
                 matched();
             }   else {
-                unmatched();
+                unmatched();g
             };
         }
 
     };
 
+    // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php
+        
+        function gameTimer(x){
+            if(running == 0){
+                running = 1;
+                increment();
+                // document.querySelector(".paused").classList.remove('paused');
+                // document.querySelector(".paused").classList.add('running');
+                document.querySelector(".paused button").innerHTML = "Pause";
+            }//else{
+            //     running = 0;
+            //     document.querySelector(".paused button").innerHTML = "Resume";
+            // }
+        };
+        
+        function reset(){
+            running = 0;
+            time = 0;
+            document.querySelector(".timer").innerHTML = "00:00:00";
+//        document.querySelector(".startPause").innerHTML = "Start";
+        };
+        
+        function increment(){
+            if(running == 1){
+                setTimeout(function(){
+                    time++;
+                    var mins = Math.floor(time / 10 / 60);
+                    if(mins <= 9){
+                        mins = "0" + mins;
+                    }
+                    var secs = Math.floor(time / 10);
+                    if(secs <= 9){
+                        secs = "0" + secs;
+                    }
+                    var tenths = Math.floor(time % 10);
+                    if(tenths <= 9){
+                        tenths = "0" + tenths;
+                    }
+                    document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
+                    increment();
+                }, 100);
+            }
+        };     
+
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function(event){
+        gameTimer();
         const card = event.target;
         if (card.nodeName==='LI') {
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
@@ -124,3 +172,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 })
+document.getElementById("myP").style.visibility = "hidden";
