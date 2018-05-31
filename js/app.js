@@ -5,20 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let time = 0;
     let running = 0;
 
-    
 
     /*
     * Create a list that holds all of your cards
     */
     const cardsArray = [ 
-        'fa-diamond', 'fa-diamond',
-        'fa-leaf', 'fa-leaf',
-        'fa-bomb', 'fa-bomb',
-        'fa-paper-plane-o', 'fa-paper-plane-o',
-        'fa-anchor', 'fa-anchor',
-        'fa-bolt', 'fa-bolt',
-        'fa-cube', 'fa-cube',
-        'fa-bicycle', 'fa-bicycle'];
+        'fa fa-diamond', 'fa fa-diamond',
+        'fa fa-leaf', 'fa fa-leaf',
+        'fa fa-bomb', 'fa fa-bomb',
+        'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
+        'fa fa-anchor', 'fa fa-anchor',
+        'fa fa-bolt', 'fa fa-bolt',
+        'fa fa-cube', 'fa fa-cube',
+        'fa fa-bicycle', 'fa fa-bicycle'];
 
     /*
     * Display the cards on the page
@@ -47,27 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayCards(array) {
         const deck = document.querySelector('.deck');
         const cardList = document.querySelectorAll('li.card');
-console.log(cardList);
         const fragment = document.createDocumentFragment();
-//        array.forEach(function(array) {
-            // const liItem = document.createElement('li');
-            // liItem.setAttribute('class', 'card');
 
-            for(let i = 0; i < array.length; i++) {
-                const image= document.createElement('i');
-                image.setAttribute('class', array[i]);
-                cardList[i].appendChild(image);
-                
-                fragment.appendChild(cardList[i]);
-            };
-
-//        });
+        for(let i = 0; i < array.length; i++) {
+            const image= document.createElement('i');
+            image.setAttribute('class', array[i]);
+            cardList[i].appendChild(image);
+            fragment.appendChild(cardList[i]);
+        };
 
         while (deck.firstChild) deck.removeChild(deck.firstChild);
-//deck.empty();
         deck.appendChild(fragment);
     }
-//option: while (deck.firstChild) deck.removeChild(deck.firstChild);
 
     /*
     * set up the event listener for a card. If a card is clicked:
@@ -116,8 +106,8 @@ console.log(cardList);
             matches++;
             if (matches === 8) {
                 running = 0;
-  //              time = 0;
-  console.log(time);
+                //              time = 0;
+                console.log(time);
                 increment();
                 setTimeout(gameWon, 1000);
             };
