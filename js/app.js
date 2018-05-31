@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
-        var currentIndex = array.length, temporaryValue, randomIndex;
+        let currentIndex = array.length, temporaryValue, randomIndex;
 
         while (currentIndex !== 0) {
             randomIndex = Math.floor(Math.random() * currentIndex);
@@ -82,7 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
             matches++;
             if (matches === 8) {
                 running = 0;
-                time = 0;
+  //              time = 0;
+  console.log(time);
                 increment();
                 setTimeout(gameWon, 1000);
             };
@@ -103,37 +104,33 @@ document.addEventListener('DOMContentLoaded', function() {
             if(running == 1){
                 setTimeout(function(){
                     time++;
-                    var mins = Math.floor(time / 10 / 60);
+                    let mins = Math.floor(time / 10 / 60);
                     if(mins <= 9){
                         mins = "0" + mins;
                     }
-                    var secs = Math.floor(time / 10);
+                    let secs = Math.floor(time / 10);
                     if(secs <= 9){
                         secs = "0" + secs;
                     }
-                    var tenths = Math.floor(time % 10);
+                    let tenths = Math.floor(time % 10);
                     if(tenths <= 9){
                         tenths = "0" + tenths;
                     }
                     document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
                     increment();
                 }, 100);
-            }  else {
-                 document.querySelector(".timer").innerHTML = "00:00:00";
-                }
+             }
         };     
     
 
         if(running == 0){
             running = 1;
             increment();
-            // document.querySelector(".paused").classList.remove('paused');
-            // document.querySelector(".paused").classList.add('running');
+            document.querySelector(".paused").style.visibility = "visible";
             document.querySelector(".paused button").innerHTML = "Pause";
-        }//else{
-        //     running = 0;
-        //     document.querySelector(".paused button").innerHTML = "Resume";
-        // }
+        }else{
+            document.querySelector(".paused").style.visibility = "hidden";
+        }
 
 
         //calls function to turn over card
@@ -170,4 +167,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 })
-//document.getElementById("myP").style.visibility = "hidden";
