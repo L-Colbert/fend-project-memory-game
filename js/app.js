@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /*
     * Display the cards on the page
-    *   - shuffle the list of cards using the provided "shuffle" method below
+    *   - shuffle the list of cards using the provided 'shuffle' method below
     *   - loop through each card and create its HTML
     *   - add each card's HTML to the page
     */
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /*
     * set up the event listener for a card. If a card is clicked:
     *  - display the card's symbol (put this functionality in another function that you call from this one)
-    *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+    *  - add the card to a *list* of 'open' cards (put this functionality in another function that you call from this one)
     *  - if the list already has another card, check to see if the two cards match
     *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
     *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (matches === 8) {
                 running = false;
                 increment();
-                document.querySelector(".paused").style.visibility = "hidden";
+                document.querySelector('.paused').style.visibility = 'hidden';
                 setTimeout(gameWon, 1000);
             };
                 
@@ -152,80 +152,118 @@ document.addEventListener('DOMContentLoaded', function() {
                 time++;
                 let mins = Math.floor(time / 10 / 60);
                 if(mins <= 9){
-                    mins = "0" + mins;
+                    mins = '0' + mins;
                 }
                 let secs = Math.floor(time / 10);
                 if(secs <= 9){
-                    secs = "0" + secs;
+                    secs = '0' + secs;
                 }
                 let tenths = Math.floor(time % 10);
                 if(tenths <= 9){
-                    tenths = "0" + tenths;
+                    tenths = '0' + tenths;
                 }
-                document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
+                document.querySelector('.timer').innerHTML = 'Timer:' +mins + ':' + secs + ':' + tenths;
                 increment();
             }, 100);
         }
     };     
 
     //Functions reset the timer
-    function reset(){
+    function reset(array){
+        matches = 0;
+        cardHolder = [];
         running = false;
         time = 0;
-        document.querySelector(".timer").innerHTML = "00:00:00";
+        count = 0;
+        document.querySelector('.timer').innerHTML = '00:00:00';
+        document.querySelector('.moves').textContent = count;
+   //     document.querySelector('.paused').style.visibility = 'hidden';
+        document.querySelector('.paused button').innerHTML = 'Restart';
+
+        
+        
+        const deck = document.querySelector('.deck');
+        const cardList = document.querySelectorAll('li.card');
+        const imgList = document.querySelectorAll('li.card > i');
+        console.log(cardList);
+        console.log(document.querySelectorAll('li.card > i'));
+        for(let i = 0; i < cardList.length; i++) {
+            cardList[i].classList.remove('match');
+            cardList[i].classList.remove('open', 'show');
+            cardList[i].removeChild(imgList[i]);           
+        };
+
+    
+
+        // while (deck.firstChild) {
+        //     deck.removeChild(deck.firstChild);
+
+        displayCards(shuffle(cardsArray))
+        
+
     };
 
 
-
     function startStop() {
-    if(running === false) {
-        running = true;
+    if(running === true) {
         increment();
-        document.querySelector(".paused").style.visibility = "visible";
-        document.querySelector(".paused button").innerHTML = "Pause";
-    } else {
-        document.querySelector(".paused button").innerHTML = "Resume";
-        running = false;
-        increment();
-        }
+        document.querySelector('.paused').style.visibility = 'visible';
+        document.querySelector('.paused button').innerHTML = 'Pause';
+        } else {
+            document.querySelector('.paused button').innerHTML = 'Resume';
+            increment();
+            }
     };
 
 
     //shuffle cards and display
     const newArray = shuffle(cardsArray);
     displayCards(newArray);
-        
-    //starts the game only if the card(li) is clicked
-    document.querySelector('.deck').addEventListener('click', function(event){
+
+    function ifTarget(event){
         const card = event.target;
         if (card.nodeName==='LI') {
             if (count == 0){
+                running = true;
                 startStop();
             };
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
                 alert("You've already selected this card, try choosing another!");
             } else {
                 count++;
-                //updates the moves counter on each card click
+                //updates the moves counter on each card clicked
                 document.querySelector('.moves').textContent = count;
                 playGame(event, count); 
             };   
         };
+    }
+        
+    //starts the game only if the card(li) is clicked
+    document.querySelector('.deck').addEventListener('click', function() {
+        ifTarget(event);
     });
 
     //listens for click of the Pause/Resume Button
     document.querySelector('.paused').addEventListener('click', function(event){
         if (running) { //pause timer
+           running = !running;
             startStop();
+            document.querySelector('.deck').removeEventListener('click', function() {
+                ifTarget(event);
+            });
         } else { //start timer
+            running = !running;
             startStop();
+            document.querySelector('.deck').addEventListener('click', function() {
+                ifTarget(event);
+            });
         }
     }, true);
     
 
     //listens for click of the the reset icon
     document.querySelector('.restart').addEventListener('click', function(event){
-        reset();
+        reset(cardsArray);
     })
 
 
