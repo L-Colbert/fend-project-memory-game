@@ -6,29 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let running = false;
 
 
-    /*
-    * Create a list that holds all of your cards
-    */
-    
-    const cardsArray = [ 
-        'fa fa-diamond', 'fa fa-diamond',
-        'fa fa-leaf', 'fa fa-leaf',
-        'fa fa-bomb', 'fa fa-bomb',
-        'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
-        'fa fa-anchor', 'fa fa-anchor',
-        'fa fa-bolt', 'fa fa-bolt',
-        'fa fa-cube', 'fa fa-cube',
-        'fa fa-bicycle', 'fa fa-bicycle'];
-
-    
-    /*
-    * Display the cards on the page
-    *   - shuffle the list of cards using the provided 'shuffle' method below
-    *   - loop through each card and create its HTML
-    *   - add each card's HTML to the page
-    */
-    
-
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
         let currentIndex = array.length, temporaryValue, randomIndex;
@@ -170,9 +147,6 @@ document.addEventListener('DOMContentLoaded', function() {
         count = 0;
         document.querySelector('.timer').innerHTML = '00:00:00';
         document.querySelector('.paused button').innerHTML = 'Restart';
-
-        
-        
         const deck = document.querySelector('.deck');
         const cardList = document.querySelectorAll('li.card');
         const imgList = document.querySelectorAll('li.card > i');
@@ -196,10 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     };
 
-    //shuffle cards and display
-    const newArray = shuffle(cardsArray);
-    displayCards(newArray);
-
     function ifTarget(event){
         const card = event.target;
         if (card.nodeName==='LI') {
@@ -215,22 +185,38 @@ document.addEventListener('DOMContentLoaded', function() {
             };   
         };
     };
-
+    
     //increment the move counter and display it on the page
     function incrementMoves() {
         document.querySelector('.moves').textContent = 'Moves: '+ count;
     }
-
-
-    /*
-    * set up the event listener for a card. If a card is clicked:
-    */
     
-
-    //starts the game only if the card(li) is clicked
-    document.querySelector('.deck').addEventListener('click', function() {
-        ifTarget(event);
-        incrementMoves()
+    
+    
+    //Create a list that holds all of your cards
+    const cardsArray = [ 
+        'fa fa-diamond', 'fa fa-diamond',
+        'fa fa-leaf', 'fa fa-leaf',
+        'fa fa-bomb', 'fa fa-bomb',
+        'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
+        'fa fa-anchor', 'fa fa-anchor',
+        'fa fa-bolt', 'fa fa-bolt',
+        'fa fa-cube', 'fa fa-cube',
+        'fa fa-bicycle', 'fa fa-bicycle'];
+        
+        
+        
+        //shuffle cards and display
+        const newArray = shuffle(cardsArray);
+        displayCards(newArray);
+        
+        /*
+        * set up the event listener for a card. If a card is clicked
+        * and starts the game
+        */
+   document.querySelector('.deck').addEventListener('click', function() {
+       ifTarget(event);
+       incrementMoves()
     });
 
     //listens for click of the Pause/Resume Button
@@ -238,15 +224,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (running) { //pause timer
            running = !running;
             startStop();
-            document.querySelector('.deck').removeEventListener('click', function() {
-                ifTarget(event);
-            });
+            // document.querySelector('.deck').removeEventListener('click', function() {
+            //     ifTarget(event);
+            // });
         } else { //start timer
             running = !running;
             startStop();
-            document.querySelector('.deck').addEventListener('click', function() {
-                ifTarget(event);
-            });
+            // document.querySelector('.deck').addEventListener('click', function() {
+            //     ifTarget(event);
+            // });
         }
     }, true);
     
