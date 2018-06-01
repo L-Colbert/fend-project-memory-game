@@ -64,16 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /*
-    * set up the event listener for a card. If a card is clicked:
-    *  - display the card's symbol (put this functionality in another function that you call from this one)
-    *  - add the card to a *list* of 'open' cards (put this functionality in another function that you call from this one)
-    *  - if the list already has another card, check to see if the two cards match
-    *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-    *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-    *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+    *Main game functionality
     */
-
-    //Main game functionality
     function playGame(e, count){
         const newCard = e.target;
 
@@ -177,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
         time = 0;
         count = 0;
         document.querySelector('.timer').innerHTML = '00:00:00';
-        document.querySelector('.moves').textContent = count;
         document.querySelector('.paused button').innerHTML = 'Restart';
 
         
@@ -220,14 +211,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert("You've already selected this card, try choosing another!");
             } else {
                 count++;
-                //updates the moves counter on each card clicked
-                document.querySelector('.moves').textContent = 'Moves: '+ count;
                 playGame(event, count); 
             };   
         };
-    }
+    };
 
     //increment the move counter and display it on the page
+    function incrementMoves() {
+        document.querySelector('.moves').textContent = 'Moves: '+ count;
+    }
 
 
     /*
@@ -238,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //starts the game only if the card(li) is clicked
     document.querySelector('.deck').addEventListener('click', function() {
         ifTarget(event);
+        incrementMoves()
     });
 
     //listens for click of the Pause/Resume Button
@@ -261,6 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
     //listens for click of the the reset icon
     document.querySelector('.restart').addEventListener('click', function(event){
         reset(cardsArray);
+        count = 0;
+        incrementMoves();
     })
 
 
