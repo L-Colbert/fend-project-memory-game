@@ -55,8 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
             fragment.appendChild(cardList[i]);
         };
 
-        while (deck.firstChild) deck.removeChild(deck.firstChild);
-        deck.appendChild(fragment);
+        while (deck.firstChild) {
+            deck.removeChild(deck.firstChild);
+        };
+        deck.appendChild(fragment)
     }
 
     /*
@@ -92,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
         function gameWon(){
             alert('Congratulations! You Did it!!');
         }
-
-
+        
+        
         //locks cards open if they are a match
         function matched() {
             
@@ -109,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 //              time = 0;
                 console.log(time);
                 increment();
+                document.querySelector(".paused").style.visibility = "hidden";
                 setTimeout(gameWon, 1000);
             };
                 
@@ -154,11 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".paused").style.visibility = "visible";
             document.querySelector(".paused button").innerHTML = "Pause";
         }else{
-            document.querySelector(".paused").style.visibility = "hidden";
-        }
-        
-        
-        
+            running = 0;
+            document.querySelector(".paused button").innerHTML = "Resume";
+         }
+                
 
         //calls function to turn over card
         displaySymbol();
