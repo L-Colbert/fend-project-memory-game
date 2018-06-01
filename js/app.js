@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(tenths <= 9){
                     tenths = '0' + tenths;
                 }
-                document.querySelector('.timer').innerHTML = 'Timer:' +mins + ':' + secs + ':' + tenths;
+                document.querySelector('.timer').innerHTML = mins + ':' + secs + ':' + tenths;
                 increment();
             }, 100);
         }
