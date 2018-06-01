@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let matches = 0;
     let cardHolder = [];
     let time = 0;
-    let running = 0;
+    let running = false;
 
 
     /*
@@ -103,13 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
             };
+
             cardArray.forEach(setAttr);
             cardHolder = [];
             matches++;
             if (matches === 8) {
-                running = 0;
-                //              time = 0;
-                console.log(time);
+                running = false;
                 increment();
                 document.querySelector(".paused").style.visibility = "hidden";
                 setTimeout(gameWon, 1000);
@@ -126,40 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
             cardHolder = [];
         };
 
-        // Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php       
-        function increment(){
-            if(running == 1){
-                setTimeout(function(){
-                    time++;
-                    let mins = Math.floor(time / 10 / 60);
-                    if(mins <= 9){
-                        mins = "0" + mins;
-                    }
-                    let secs = Math.floor(time / 10);
-                    if(secs <= 9){
-                        secs = "0" + secs;
-                    }
-                    let tenths = Math.floor(time % 10);
-                    if(tenths <= 9){
-                        tenths = "0" + tenths;
-                    }
-                    document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
-                    increment();
-                }, 100);
-             }
-        };     
-    
-
-        
-        if(running == 0){
-            running = 1;
-            increment();
-            document.querySelector(".paused").style.visibility = "visible";
-            document.querySelector(".paused button").innerHTML = "Pause";
-        }else{
-            running = 0;
-            document.querySelector(".paused button").innerHTML = "Resume";
-         }
                 
 
         //calls function to turn over card
@@ -180,6 +145,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
     };
 
+    //Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php       
+    function increment(){
+        if(running === true){
+            setTimeout(function(){
+                time++;
+                let mins = Math.floor(time / 10 / 60);
+                if(mins <= 9){
+                    mins = "0" + mins;
+                }
+                let secs = Math.floor(time / 10);
+                if(secs <= 9){
+                    secs = "0" + secs;
+                }
+                let tenths = Math.floor(time % 10);
+                if(tenths <= 9){
+                    tenths = "0" + tenths;
+                }
+                document.querySelector(".timer").innerHTML = 'Timer:' +mins + ":" + secs + ":" + tenths;
+                increment();
+            }, 100);
+        }
+    };     
+
+    //Functions reset the timer
+    function reset(){
+        running = false;
+        time = 0;
+        document.querySelector(".timer").innerHTML = "00:00:00";
+    };
+
+
+
+    function startStop() {
+    if(running === false) {
+        running = true;
+        increment();
+        document.querySelector(".paused").style.visibility = "visible";
+        document.querySelector(".paused button").innerHTML = "Pause";
+    } else {
+        document.querySelector(".paused button").innerHTML = "Resume";
+        running = false;
+        increment();
+        }
+    };
+
 
     //shuffle cards and display
     const newArray = shuffle(cardsArray);
@@ -189,14 +199,33 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.deck').addEventListener('click', function(event){
         const card = event.target;
         if (card.nodeName==='LI') {
+            if (count == 0){
+                startStop();
+            };
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
                 alert("You've already selected this card, try choosing another!");
             } else {
                 count++;
+                //updates the moves counter on each card click
                 document.querySelector('.moves').textContent = count;
                 playGame(event, count); 
             };   
         };
+    });
+
+    //listens for click of the Pause/Resume Button
+    document.querySelector('.paused').addEventListener('click', function(event){
+        if (running) { //pause timer
+            startStop();
+        } else { //start timer
+            startStop();
+        }
+    }, true);
+    
+
+    //listens for click of the the reset icon
+    document.querySelector('.restart').addEventListener('click', function(event){
+        reset();
     })
 
 
