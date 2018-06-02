@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let cardHolder = [];
     let time = 0;
     let running = false;
+    let strCnt = 3;
+    let winString = '';
 
 
     // Shuffle function from http://stackoverflow.com/a/2450976
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         return array;
-    }
+    };
 
     //displays the cards on the deck
     function displayCards(array) {
@@ -37,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
         while (deck.firstChild) {
             deck.removeChild(deck.firstChild);
         };
-        deck.appendChild(fragment)
-    }
+        deck.appendChild(fragment);
+    };
 
     /*
     *Main game functionality
     */
     function playGame(e, count){
-        const newCard = e.target;
+        newCard = e.target;
 
 
         //displays the once hidden symbol of the card
@@ -62,8 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //if all cards have matched, display a message with the final score
         function gameWon(){
-            alert('Congratulations! You Did it!!');
-        }
+            displayModal();
+            reset();
+        };
         
         
         //if the cards do match, lock the cards in the open position
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 running = false;
                 increment();
                 document.querySelector('.paused').style.visibility = 'hidden';
-                setTimeout(gameWon, 1000);
+                setTimeout(gameWon, 750);
             };
                 
         };
@@ -102,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         //invokes function that stores the clicked in an array
-        const cardArray = openedCards(e, newCard);
+        cardArray = openedCards(e, newCard);
 
         //if the list already has another card, check to see if the two cards match
         if (cardArray.length === 2) {
@@ -139,12 +142,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };     
 
     //Functions reset the timer
-    function reset(array){
+    function reset(){
         matches = 0;
         cardHolder = [];
         running = false;
         time = 0;
         count = 0;
+        incrementMoves();
         
         document.querySelector('.timer').innerHTML = '00:00:00';
         document.querySelector('.paused button').innerHTML = 'Restart';
@@ -181,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function ifTarget(event){
-        const card = event.target;
+        card = event.target;
         if (card.nodeName==='LI') {
             if (count == 0){
                 running = true;
@@ -199,31 +203,88 @@ document.addEventListener('DOMContentLoaded', function() {
     //increment the move counter and display it on the page
     function incrementMoves() {
         document.querySelector('.moves').textContent = 'Moves: '+ count;
-    }
+    };
     
     function starRating() {
-        const starList = document.querySelectorAll('.halfstar');
+        starList = document.querySelectorAll('.halfstar');
         if (count > 19){
             if (count < 25) {
                     starList[1].classList.remove('fa-star');
                     starList[1].classList.add('fa-star-half-o');
+                    strCnt = 2.5;
             } else if (count < 30) {
                     starList[1].classList.remove('fa-star-half-o');
                     starList[1].classList.add('fa-star-o');
+                    strCnt = 2;
             } else if (count < 35) {
                     starList[1].classList.remove('fa-star-half-o');
                     starList[1].classList.add('fa-star-o');
                     starList[0].classList.remove('fa-star');
                     starList[0].classList.add('fa-star-half-o');
+                    strCnt = 1.5;
             } else if(count < 40) {
                     starList[0].classList.remove('fa-star-half-o');
                     starList[0].classList.add('fa-star-o');
+                    strCnt = 1;
             };
         }
     };
     
+
+    // Modal code from https://www.w3schools.com/howto/howto_css_modals.asp
+
+    var modal = document.getElementById('win-modal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // After 8 matches, gameWon() invokes this to open the modal 
+    function displayModal() {
+        let winString = '';
+        if (strCnt >= 1 ) {
+            winString = `
+            With ${count} moves and ${strCnt} Stars
+
+                      Woooooooooooo!`                 
+        } else {
+            winString = `
+            With ${count} moves and ${strCnt} Stars
+
+                      Woooooooooooo!`;
+        };
+
+        let text = document.createTextNode(winString);
+
+        modal.style.display = "block";
+
+//        document.querySelector('.win-text').appendChild(text);
+        document.querySelector('.win-text').insertAdjacentHTML('afterend',winString);
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            };
+        };
+
+        document.querySelector('.play-again').addEventListener('click', function(event){
+            modal.style.display = "none";
+            reset();
+        })
+    
+    }
+
+
+
+
+
     //Create a list that holds all of your cards
-    const cardsArray = [ 
+    cardsArray = [ 
         'fa fa-diamond', 'fa fa-diamond',
         'fa fa-leaf', 'fa fa-leaf',
         'fa fa-bomb', 'fa fa-bomb',
@@ -236,13 +297,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
         //shuffle cards and display
-        const newArray = shuffle(cardsArray);
-        displayCards(newArray);
+   //     newArray = shuffle(cardsArray);
+//        displayCards(newArray);
+
+displayCards(cardsArray);
         
         /*
         * set up the event listener for a card. If a card is clicked
         * and starts the game
         */
+    
     document.querySelector('.deck').addEventListener('click', function() {
        ifTarget(event);
        incrementMoves()
@@ -269,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //listens for click of the the reset icon
     document.querySelector('.restart').addEventListener('click', function(event){
-        reset(cardsArray);
+        reset();
         count = 0;
         incrementMoves();
     })
