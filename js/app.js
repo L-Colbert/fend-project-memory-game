@@ -145,16 +145,26 @@ document.addEventListener('DOMContentLoaded', function() {
         running = false;
         time = 0;
         count = 0;
+        
         document.querySelector('.timer').innerHTML = '00:00:00';
         document.querySelector('.paused button').innerHTML = 'Restart';
+        document.querySelector('.restart').style.visibility = 'hidden';
         const deck = document.querySelector('.deck');
         const cardList = document.querySelectorAll('li.card');
         const imgList = document.querySelectorAll('li.card > i');
+        const starList = document.querySelectorAll('.halfstar');
+        
         for(let i = 0; i < cardList.length; i++) {
             cardList[i].classList.remove('match');
             cardList[i].classList.remove('open', 'show');
             cardList[i].removeChild(imgList[i]);           
         };
+
+        for(let i = 0; i < starList.length; i++) {
+            starList[i].classList.remove('fa-star-half-o','fa-star-o');
+            starList[i].classList.add('fa-star');
+        };
+
         displayCards(shuffle(cardsArray))
     };
 
@@ -191,42 +201,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.moves').textContent = 'Moves: '+ count;
     }
     
-    //Changes the star rating, determined by moves(cards clicked)
-    // function starRating {
-    //     const starsList = document.querySelectorAll('.fa-star');
-    //     if (count < 19) {
-    //         starList[1] = classList.add('open','show');
-    //         newCard.'
-
-
-    //     }
-    // }
-
-    
     function starRating() {
         const starList = document.querySelectorAll('.halfstar');
-        console.log(starList);
         if (count > 19){
             if (count < 25) {
                     starList[1].classList.remove('fa-star');
                     starList[1].classList.add('fa-star-half-o');
             } else if (count < 30) {
-                console.log('count < 30');
                     starList[1].classList.remove('fa-star-half-o');
                     starList[1].classList.add('fa-star-o');
-                    starList[1].style.color = 'red';
             } else if (count < 35) {
-                console.log('count < 35');
                     starList[1].classList.remove('fa-star-half-o');
                     starList[1].classList.add('fa-star-o');
-                    starList[1].style.color = 'red';
                     starList[0].classList.remove('fa-star');
                     starList[0].classList.add('fa-star-half-o');
             } else if(count < 40) {
-                console.log('count < 40');
                     starList[0].classList.remove('fa-star-half-o');
                     starList[0].classList.add('fa-star-o');
-                    starList[0].style.color = 'red';
             };
         }
     };
