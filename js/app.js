@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             function setAttr(item) {
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
+                item.classList.add('isMatch');
             };
 
             cardArray.forEach(setAttr);
@@ -93,12 +94,16 @@ document.addEventListener('DOMContentLoaded', function() {
         function unmatched() {
             function setAttr(item) {
                 item.classList.remove('open', 'show');
+                item.classList.add('isNotMatch');
+                setTimeout(function() {
+                    item.classList.remove('isNotMatch');
+                }, 500);
             };
-           setTimeout(function() {cardArray.forEach(setAttr)}, 750);
+           setTimeout(function() {
+               cardArray.forEach(setAttr)
+            }, 750);
             cardHolder = [];
         };
-
-                
 
         //calls function to turn over card
         displaySymbol();
