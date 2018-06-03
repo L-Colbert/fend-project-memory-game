@@ -26,6 +26,9 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
+    height: 85%;
+    margin-bottom: 0;
 }
 
 h1 {
@@ -38,10 +41,10 @@ h1 {
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    width: 250px;
+    min-height: 250px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
+    padding: 13px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex;
@@ -52,8 +55,8 @@ h1 {
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
+    height: 50px;
+    width: 50px;
     background: #2e3d49;
     font-size: 0;
     color: #ffffff;
@@ -68,19 +71,19 @@ h1 {
 
 .deck .card.open {
     transform: rotateY(0);
-    background: #02b3e4;
+    background: #68ddfd;
     cursor: default;
     transform: scaleX(-1);
 }
 
 .deck .card.show {
-    font-size: 33px;
+    font-size: 16px;
 }
 
 .deck .card.match {
     cursor: default;
-    background: #b402cc;
-    font-size: 33px;
+    background: #99ffcc;
+    font-size: 16px;
 }
 
 
@@ -109,7 +112,7 @@ h1 {
     transform: translate(1px, 1px); /*move it*/
     animation: nope .4s;
     transform: rotateY(0); /*open*/
-    font-size: 33px;    
+    font-size: 16px;    
 }
 
 @keyframes nope {
@@ -126,7 +129,7 @@ h1 {
  */
 
 .moves {
-    width: 150px;
+    width: 66px;
     height: auto;
     display: inline-block;
     text-align: right;
@@ -152,29 +155,33 @@ h1 {
 }
 
 button {
-    width: 75px;
+    width: 58px;
     margin: 0;
+    padding: 0;
 }
 
 .score-panel {
     text-align: center;
-    width: 600px;
+    width: 304px;
+    height: 50px;
     margin-bottom: 10px;
-    display: flex;
+    /* display: flex; */
     flex-direction: row;
     justify-content: space-around;
+    font-size: 16px;
 }
 
 
 .score-panel .stars {
     padding: 0;
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin: 0;
 }
 
 .score-panel .stars li {
     list-style: none;
     display: inline-block;
+    font-size: smaller;
 }
 
 .score-panel .restart {
@@ -187,6 +194,7 @@ button {
     display: inline;
     text-align: left;
     color: black;
+    width: 189px;
 }
 
 .timer {
@@ -259,5 +267,100 @@ button {
 
 .check {
     color: lime;
-    font-size: 40px;
+    font-size: 30px;
 }
+
+/* Styles the footer */
+footer {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    margin: 0px 0 15px 9px;
+}
+  
+footer > p {
+    font-size: 12px;
+  }
+  
+
+ /* @media screen and (min-width: 320px) {
+    .deck {
+        width: 400px;
+        min-height: 400px;
+    }    
+
+    .deck .card {
+        height: 75px;
+        width: 75px;
+    
+    }    
+} */
+
+@media screen and (min-width: 414px) {
+    .score-panel{
+        width: 330px;
+    }
+    .deck {
+        width: 330px;
+        min-height: 330px;
+    }    
+
+    .deck .card {
+        height: 70px;
+        width: 70px;
+    
+    }
+
+
+}
+
+@media screen and (min-width: 703px) {
+    .score-panel{
+        width: 380px;
+    }
+
+    .deck {
+        width: 380px;
+        min-height: 380px;
+    }    
+
+    .deck .card {
+        height: 75px;
+        width: 75px;
+    
+    }
+}
+    
+@media screen and (min-width: 768px) {
+    .score-panel{
+        width: 500px;
+    }
+
+    .deck {
+        width: 500px;
+        min-height: 500px;
+    }    
+
+    .deck .card {
+        height: 100px;
+        width: 100px;
+    
+    } 
+}
+    
+/*
+* at 800px and larger, there will be a
+* margin and page will have a fixed size
+*/
+ @media screen and (min-width: 800px) {
+    body,
+    header, 
+    .score-panel,
+    div,
+    footer {
+      width: 600px;
+      height: auto;
+      margin: auto;
+    }
+  } 
+  
