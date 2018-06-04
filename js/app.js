@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(mins <= 9){
                     mins = '0' + mins;
                 }
-                let secs = Math.floor(time / 10);
+                let secs = Math.floor(time % 600 / 10);
                 if(secs <= 9){
                     secs = '0' + secs;
                 }
@@ -248,9 +248,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let winString = '';
         if (strCnt >= 1 ) {
             winString = `
-            With ${count} moves and ${strCnt} Stars
+            With ${count} moves and ${strCnt} Star
 
-                      Woooooooooooo!`                 
+                      Woooooooooooo!`
         } else {
             winString = `
             With ${count} moves and ${strCnt} Stars
@@ -262,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         modal.style.display = "block";
 
-//        document.querySelector('.win-text').appendChild(text);
         document.querySelector('.win-text').insertAdjacentHTML('afterend',winString);
 
         // When the user clicks on <span> (x), close the modal
@@ -302,10 +301,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
         //shuffle cards and display
-   //     newArray = shuffle(cardsArray);
-//        displayCards(newArray);
+       newArray = shuffle(cardsArray);
+       displayCards(newArray);
 
-displayCards(cardsArray);
+// displayCards(cardsArray);
         
         /*
         * set up the event listener for a card. If a card is clicked
@@ -323,15 +322,9 @@ displayCards(cardsArray);
         if (running) { //pause timer
            running = !running;
             startStop();
-            // document.querySelector('.deck').removeEventListener('click', function() {
-            //     ifTarget(event);
-            // });
         } else { //start timer
             running = !running;
             startStop();
-            // document.querySelector('.deck').addEventListener('click', function() {
-            //     ifTarget(event);
-            // });
         }
     }, true);
     
