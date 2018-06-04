@@ -100,8 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 1000);
             };
 
-            // cardArray.forEach(setAttr)
-
            setTimeout(function() {
                cardArray.forEach(setAttr)
             }, 1000);
@@ -149,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };     
 
-    //Functions reset the timer
+    //Functions reset the timer, stars, and moves
     function reset(){
         matches = 0;
         cardHolder = [];
@@ -180,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         displayCards(shuffle(cardsArray))
     };
 
+    //starts and stops the game when the pause/resume/restart button is clicked
     function startStop() {
     if(running === true) {
         increment();
@@ -192,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     };
 
+    //functin that is called when a card is clicked, starts the timer, and the game
     function ifTarget(event){
         card = event.target;
         if (card.nodeName==='LI') {
@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.moves').textContent = 'Moves: '+ count;
     };
     
+    //controls the star rating section
     function starRating() {
         starList = document.querySelectorAll('.halfstar');
         if (count > 19){
@@ -303,12 +304,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         
         
-        //shuffle cards and display
+       //shuffle cards and display
        newArray = shuffle(cardsArray);
        displayCards(newArray);
 
-// displayCards(cardsArray);
-        
+       
         /*
         * set up the event listener for a card. If a card is clicked
         * and starts the game
