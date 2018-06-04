@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             function setAttr(item) {
                 item.classList.remove('open', 'show');
                 item.classList.add('match');
-                item.classList.add('isMatch');
+                item.classList.add('is-Match');
             };
 
             cardArray.forEach(setAttr);
@@ -94,14 +94,17 @@ document.addEventListener('DOMContentLoaded', function() {
         function unmatched() {
             function setAttr(item) {
                 item.classList.remove('open', 'show');
-                item.classList.add('isNotMatch');
+                item.classList.add('is-not-match');
                 setTimeout(function() {
-                    item.classList.remove('isNotMatch');
-                }, 500);
+                    item.classList.remove('is-not-match');
+                }, 1000);
             };
+
+            // cardArray.forEach(setAttr)
+
            setTimeout(function() {
                cardArray.forEach(setAttr)
-            }, 750);
+            }, 1000);
             cardHolder = [];
         };
 
@@ -328,7 +331,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, true);
     
-
     //listens for click of the the reset icon
     document.querySelector('.restart').addEventListener('click', function(event){
         reset();
