@@ -2,11 +2,30 @@ document.addEventListener('DOMContentLoaded', function() {
     let count = 0;
     let matches = 0;
     let cardHolder = [];
+    let pairOfCards = [];
     let time = 0;
     let running = false;
     let strCnt = 3;
     let winString = '';
     let winTime = '';
+    let flipped = 0;
+    let classDeck = document.querySelector('.deck');
+    let classPause = document.querySelector('.paused');
+    let classRestart = document.querySelector('.restart');
+    let theseCards = document.querySelectorAll('.card');
+    
+
+    //Create a list that holds all of your cards
+    cardsArray = [ 
+        'fa fa-diamond', 'fa fa-diamond',
+        'fa fa-leaf', 'fa fa-leaf',
+        'fa fa-bomb', 'fa fa-bomb',
+        'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
+        'fa fa-anchor', 'fa fa-anchor',
+        'fa fa-bolt', 'fa fa-bolt',
+        'fa fa-cube', 'fa fa-cube',
+        'fa fa-bicycle', 'fa fa-bicycle'];
+    
 
 
     // Shuffle function from http://stackoverflow.com/a/2450976
@@ -60,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         //add the card to a *list* of 'open' cards
         function openedCards(e, card){
             cardHolder.push(card);
+            flipped++;
             return cardHolder;
         };
 
@@ -78,9 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.classList.add('match');
                 item.classList.add('is-Match');
             };
-
-            cardArray.forEach(setAttr);
+            
+            pairOfCards.forEach(setAttr);
             cardHolder = [];
+            flipped = 0;
             matches++;
             if (matches === 8) {
                 running = false;
@@ -102,9 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
            setTimeout(function() {
-               cardArray.forEach(setAttr)
+               pairOfCards.forEach(setAttr)
             }, 1000);
             cardHolder = [];
+            flipped = 0;
         };
 
         //calls function to turn over card
@@ -112,17 +134,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         //invokes function that stores the clicked in an array
-        cardArray = openedCards(e, newCard);
+        pairOfCards = openedCards(e, newCard);
 
         //if the list already has another card, check to see if the two cards match
-        if (cardArray.length === 2) {
-            if (cardArray[0].firstElementChild.getAttribute('class') === cardArray[1].firstElementChild.getAttribute('class')) {
+        if (pairOfCards.length === 2) {
+            theseCards.forEach(
+                function(theseCards) { 
+                    theseCards.classList.add('no-click');
+                }
+            )
+                if (pairOfCards[0].firstElementChild.getAttribute('class') === pairOfCards[1].firstElementChild.getAttribute('class')) {
                 matched();
-            }   else {
+                theseCards = document.querySelectorAll('.card');
+
+                theseCards.forEach(
+                    function(theseCards) { 
+                        theseCards.classList.remove ('no-click');
+                    })
+    
+            } else {
                 unmatched();
-            };
+                for (let i=0; i< theseCards.length; i++) {
+                    setTimeout(function() {
+                        theseCards[i].classList.remove('no-click');
+                    }, 1500);
+   
+                };
+            }
         }
 
+        return pairOfCards;
     };
 
     //Timer function from http://learnwebsitedesign.com/freeJavascriptCodes/freeJavascriptStopwatchCode.php       
@@ -157,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function reset(){
         matches = 0;
         cardHolder = [];
+        flipped = 0;
         running = false;
         time = 0;
         count = 0;
@@ -187,14 +229,23 @@ document.addEventListener('DOMContentLoaded', function() {
     //starts and stops the game when the pause/resume/restart button is clicked
     function startStop() {
     if(running === true) {
+        theseCards.forEach(
+            function(theseCards) { 
+                theseCards.classList.remove('no-click');
+            });
         increment();
         document.querySelector('.paused').style.visibility = 'visible';
         document.querySelector('.restart').style.visibility = 'visible';
         document.querySelector('.paused button').innerHTML = 'Pause';
         } else {
             document.querySelector('.paused button').innerHTML = 'Resume';
+            document.querySelector('.paused button').style.backgroundColor = '#ff80ff';
+            theseCards.forEach(
+                function(theseCards) { 
+                    theseCards.classList.add('no-click');
+                });
             increment();
-            }
+        }
     };
 
     //functin that is called when a card is clicked, starts the timer, and the game
@@ -208,8 +259,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if ((card.classList.contains('open')) || (card.classList.contains('match'))) {
                 alert("You've already selected this card, try choosing another!");
             } else {
-                count++;
                 playGame(event, count); 
+                count++;
             };   
         };
     };
@@ -247,7 +298,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     // Modal code from https://www.w3schools.com/howto/howto_css_modals.asp
-
     var modal = document.getElementById('win-modal');
 
     // Get the <span> element that closes the modal
@@ -260,12 +310,12 @@ document.addEventListener('DOMContentLoaded', function() {
             winString = `
             With ${count} moves and ${strCnt} Stars
                     in ${winTime}s
-                      Woooooooooooo!`
+                      Woooooo!`
         } else {
             winString = `
             With ${count} moves and ${strCnt} Star
                     in ${winTime}s
-                      Woooooooooooo!`;
+                      Woooooo!`;
         };
 
         let text = document.createTextNode(winString);
@@ -291,59 +341,61 @@ document.addEventListener('DOMContentLoaded', function() {
             reset();
         })
     
-    }
-
-
-
-
-
-    //Create a list that holds all of your cards
-    cardsArray = [ 
-        'fa fa-diamond', 'fa fa-diamond',
-        'fa fa-leaf', 'fa fa-leaf',
-        'fa fa-bomb', 'fa fa-bomb',
-        'fa fa-paper-plane-o', 'fa fa-paper-plane-o',
-        'fa fa-anchor', 'fa fa-anchor',
-        'fa fa-bolt', 'fa fa-bolt',
-        'fa fa-cube', 'fa fa-cube',
-        'fa fa-bicycle', 'fa fa-bicycle'];
-        
-        
-        
-       //shuffle cards and display
-       newArray = shuffle(cardsArray);
-       displayCards(newArray);
-
-       
-        /*
-        * set up the event listener for a card. If a card is clicked
-        * and starts the game
-        */
+    };
     
-    document.querySelector('.deck').addEventListener('click', function() {
         
-       ifTarget(event);
-       incrementMoves();
-       starRating();
-    });
+   
+    //test listener function
+    function addAListener (clss, event ,handler) {
+        clss.addEventListener(event, handler);
+    };
 
-    //listens for click of the Pause/Resume Button
-    document.querySelector('.paused').addEventListener('click', function(event){
+    //invokes the functions to increment the moves, star rating, and game
+    function thisIsIt() {
+        starRating();
+        ifTarget(event);
+        incrementMoves();
+    };
+ 
+    function resetGame() {
+        reset();
+        count = 0;
+        incrementMoves();
+    };
+
+    function pauseIt() {
         if (running) { //pause timer
-           running = !running;
+            running = !running;
             startStop();
         } else { //start timer
             running = !running;
             startStop();
         }
-    }, true);
+ 
+    } 
+
+    //remove listener
+    function removeAListener() {
+        document.querySelector('.deck').removeEventListener('click', thisIsIt);
+    };
+
+    //shuffle cards and display
+    newArray = shuffle(cardsArray);
+    displayCards(newArray);
+
+    /*
+    * set up the event listener for a card. If a card is clicked
+    * and starts the game
+    */
+    let evt = 'click';
+    addAListener(classDeck, evt, thisIsIt);
+
+    //listens for click of the Pause/Resume Button
+    addAListener(classPause, evt, pauseIt);
     
+  
     //listens for click of the the reset icon
-    document.querySelector('.restart').addEventListener('click', function(event){
-        reset();
-        count = 0;
-        incrementMoves();
-    })
+    addAListener(classRestart, evt, resetGame);
 
 
 })
