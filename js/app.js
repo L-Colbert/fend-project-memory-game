@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let running = false;
     let strCnt = 3;
     let winString = '';
+    let winTime = '';
 
 
     // Shuffle function from http://stackoverflow.com/a/2450976
@@ -142,6 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     tenths = '0' + tenths;
                 }
                 document.querySelector('.timer').innerHTML = mins + ':' + secs + ':' + tenths;
+                if (mins > 0) {
+                    winTime = mins + ':' + secs;
+                } else {
+                    winTime = secs + ':' + tenths;
+                };
                 increment();
             }, 100);
         }
@@ -250,15 +256,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // After 8 matches, gameWon() invokes this to open the modal 
     function displayModal() {
         let winString = '';
-        if (strCnt >= 1 ) {
+        if (strCnt > 1 ) {
             winString = `
-            With ${count} moves and ${strCnt} Star
-
+            With ${count} moves and ${strCnt} Stars
+                    in ${winTime}s
                       Woooooooooooo!`
         } else {
             winString = `
-            With ${count} moves and ${strCnt} Stars
-
+            With ${count} moves and ${strCnt} Star
+                    in ${winTime}s
                       Woooooooooooo!`;
         };
 
@@ -315,8 +321,9 @@ document.addEventListener('DOMContentLoaded', function() {
         */
     
     document.querySelector('.deck').addEventListener('click', function() {
+        
        ifTarget(event);
-       incrementMoves()
+       incrementMoves();
        starRating();
     });
 

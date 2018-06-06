@@ -130,6 +130,12 @@ h1 {
 }
 
 
+.no-click {
+    pointer-events: none;
+    color: #6b139e;
+}
+
+
 /*
  * Styles for the Score Panel
  */
